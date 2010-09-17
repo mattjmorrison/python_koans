@@ -7,6 +7,7 @@ import re
 
 from libs.mock import *
 
+from runner.koan import *
 from runner.sensei import Sensei
 from runner.writeln_decorator import WritelnDecorator
 from runner.mockable_test_result import MockableTestResult
@@ -296,6 +297,19 @@ class TestSensei(unittest.TestCase):
   + [1, 2]
   ?     ^""",
             self.sensei.scrapeAssertionError(error_with_list))
+
+    def test_that_scraping_the_assertion_error_will_not_reveal_a_solution(self):
+		self.assertEqual("", self.sensei.scrapeAssertionError("""Traceback (most recent call last):
+		  File "mock.py", line 106, in test_fail
+		    self.assertTrue(False)
+		AssertionError: %s is not True
+		""" % __))
+
+		self.assertEqual("", self.sensei.scrapeAssertionError("""Traceback (most recent call last):
+		  File "mock.py", line 106, in test_fail
+		    self.assertTrue(False)
+		AssertionError: %s is not True
+		""" % ____))
 
     def test_that_scraping_a_non_existent_stack_dump_gives_you_nothing(self):
         self.assertEqual("", self.sensei.scrapeInterestingStackDump(None))

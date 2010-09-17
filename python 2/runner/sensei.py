@@ -5,6 +5,7 @@ import unittest
 import re
 
 import helper
+from runner.koan import __, ____
 from mockable_test_result import MockableTestResult
 
 from libs.colorama import init, Fore, Style
@@ -108,6 +109,9 @@ class Sensei(MockableTestResult):
 
     def scrapeAssertionError(self, err):
         if not err: return ""
+
+        if __ in err or ____ in err: 
+			return ""
 
         error_text = ""
         count = 0
